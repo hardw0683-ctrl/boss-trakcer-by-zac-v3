@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Loot Drop Tracker</title>
+    <link rel="icon" href="Launcher.ico" />
+
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: url("https://i.imgur.com/kcX2vZF.jpeg") no-repeat center
+          center fixed;
+        background-size: cover;
+        color: #f8e4b0;
+        padding: 40px;
+        margin: 0;
+        background-image: url('background.jpg');
+  background-size: cover;       /* Make sure image covers the entire area */
+  background-position: center;  /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+      }
+
+      .container {
+        max-width: 700px;
+        margin: auto;
+        background-color: rgba(25, 20, 20, 0.9);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+        border: 2px solid #d4af37;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+        color: #ffd700;
+        margin-bottom: 25px;
+      }
+
+      label {
+        font-weight: bold;
+        font-size: 18px;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 2px solid #d4af37;
+        background-color: #1e1e1e;
+        color: #fff5cc;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+
+      .player-list label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+
+      .player-list input {
+        margin-right: 10px;
+        transform: scale(1.3);
+      }
+
+      #logDropBtn {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+        background-color: #ffcc00;
+        color: #1a1a1a;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: background-color 0.3s;
+      }
+
+      #logDropBtn:hover {
+        background-color: #ffdb4d;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 30px;
+        color: #fff0c2;
+      }
+
+      th,
+      td {
+        padding: 14px;
+        border: 1px solid #d4af37;
+        background-color: rgba(50, 40, 20, 0.9);
+        text-align: center;
+      }
+
+      th {
+        background-color: #3e2d1b;
+        color: #ffd700;
+      }
+
+      option {
+        background-color: #2c2c2c;
+      }
+
+      .item-icon {
+        width: 20px;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎁 Loot Drop Tracker</h1>
+
+      <label for="itemSelect">اختر العنصر الذي سقط:</label>
+      <select id="itemSelect">
+        <option value="">-- اختر العنصر --</option>
+        <option value="بطاقة شاينوك" data-value="1500">
+          🃏 بطاقة شاينوك (1500 نقطة)
+        </option>
+        <option value="قناع نجم حديدي {تصفيح}" data-value="100">
+          🛡️ قناع نجم حديدي {تصفيح} (100 نقطة)
+        </option>
+        <option value="قناع نجم حديدي {انفجار}" data-value="300">
+          💥 قناع نجم حديدي {انفجار} (300 نقطة)
+        </option>
+        <option value="بطاقة تشوبوس ساحر" data-value="1500">
+          🔮 بطاقة تشوبوس ساحر (1500 نقطة)
+        </option>
+        <option value="بطاقة تشوبوس براري" data-value="2000">
+          🌿 بطاقة تشوبوس براري (2000 نقطة)
+        </option>
+        <option value="بطاقة تشوبوس حربي" data-value="1500">
+          ⚔️ بطاقة تشوبوس حربي (1500 نقطة)
+        </option>
+      </select>
+
+      <div class="player-list" id="playerList"></div>
+
+      <button id="logDropBtn">Log Drop</button>
+
+      <h2>🏆 Leaderboard</h2>
+      <table id="leaderboard">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div style="text-align: center;">
+      <button
+        id="clearAllBtn"
+        style="
+          margin-top: 15px;
+          width: 30%;
+          padding: 12px;
+          background-color: #ef0808;
+          color: white;
+          font-weight: bold;
+          border: none;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        "
+      >
+        🗑️ مسح كل النقاط
+      </button>
+      <section id="itemManagement" style="margin-top: 40px; background: rgba(30,30,30,0.9); padding: 20px; border-radius: 12px; color: #f8e4b0;">
+        <h2>إدارة العناصر</h2>
+      
+        <table id="itemsTable" style="width: 100%; margin-bottom: 20px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #d4af37;">
+              <th style="text-align: left; padding: 8px;">العنصر</th>
+              <th style="text-align: left; padding: 8px;">النقاط</th>
+              <th>حذف</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+          <input type="text" id="newItemName" placeholder="اسم العنصر" style="flex: 2; padding: 8px; border-radius: 6px; border: 1px solid #d4af37;" />
+          <input type="number" id="newItemPoints" placeholder="النقاط" style="flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #d4af37;" />
+          <button id="addItemBtn" style="flex: 1; background: #ffd700; border: none; border-radius: 8px; cursor: pointer;">أضف عنصر</button>
+        </div>
+      
+        <div id="itemMessage" style="color: #ffcc00;"></div>
+      </section>
+      <div style="text-align: center; margin-top: 15px;">
+        <button
+          id="backToIndexBtn"
+          style="
+            width: 30%;
+            padding: 12px;
+            background-color: #007acc;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 15px;
+          "
+        >
+          🔙 العودة للرئيسية
+        </button>
+      </div>
+    <script type="module">
+      import { db } from "./firebase-config.js";
+      import {
+        ref,
+        onValue,
+        set,
+        update,
+        get,
+      } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+      const players = ["zac", "mahmoud", "mohamed", "mina", "ragab"];
+
+      const playerListDiv = document.getElementById("playerList");
+      playerListDiv.innerHTML = ""; // clear old
+
+      players.forEach((name) => {
+        const label = document.createElement("label");
+        label.innerHTML = `<input type="checkbox" value="${name}"> ${name}`;
+        playerListDiv.appendChild(label);
+      });
+
+      async function logDropToFirebase(itemName, itemPoints, selectedPlayers) {
+        const pointsPerPlayer = Math.floor(itemPoints / selectedPlayers.length);
+        const updates = {};
+
+        for (const player of selectedPlayers) {
+          const playerRef = ref(db, `leaderboard/${player}`);
+          const snapshot = await get(playerRef);
+          const oldPoints = snapshot.exists() ? snapshot.val() : 0;
+          updates[`leaderboard/${player}`] = oldPoints + pointsPerPlayer;
+        }
+
+        await update(ref(db), updates);
+        alert(
+          `Logged ${itemName} (${itemPoints} pts) split between: ${selectedPlayers.join(
+            ", "
+          )}`
+        );
+      }
+
+      const leaderboardTable = document
+        .getElementById("leaderboard")
+        .querySelector("tbody");
+
+      function updateLeaderboardTable(data) {
+        leaderboardTable.innerHTML = "";
+        Object.entries(data).forEach(([player, points]) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `<td>${player}</td><td>${points}</td>`;
+          leaderboardTable.appendChild(row);
+        });
+      }
+
+      onValue(ref(db, "leaderboard"), (snapshot) => {
+        const data = snapshot.val() || {};
+        updateLeaderboardTable(data);
+      });
+
+      document
+        .getElementById("logDropBtn")
+        .addEventListener("click", async () => {
+          const itemName = itemSelect.value;
+          const itemPoints = parseInt(
+            itemSelect.selectedOptions[0]?.dataset.value || "0"
+          );
+          if (!itemName || !itemPoints) return alert("Please select an item");
+
+          const selectedPlayers = Array.from(
+            playerListDiv.querySelectorAll("input:checked")
+          ).map((c) => c.value);
+          if (selectedPlayers.length === 0)
+            return alert("Please select at least one player");
+
+          await logDropToFirebase(itemName, itemPoints, selectedPlayers);
+
+          itemSelect.selectedIndex = 0;
+          playerListDiv
+            .querySelectorAll("input:checked")
+            .forEach((c) => (c.checked = false));
+        });
+      document
+        .getElementById("clearAllBtn")
+        .addEventListener("click", async () => {
+          const confirmClear = confirm(
+            "هل أنت متأكد أنك تريد مسح جميع النقاط؟"
+          );
+          if (!confirmClear) return;
+
+          try {
+            // Clear leaderboard in Firebase
+            await set(ref(db, "leaderboard"), null);
+
+            // Clear leaderboard table on page
+            const leaderboardTable = document
+              .getElementById("leaderboard")
+              .querySelector("tbody");
+            leaderboardTable.innerHTML = "";
+
+            alert("تم مسح جميع النقاط!");
+          } catch (error) {
+            alert("حدث خطأ أثناء المسح: " + error.message);
+          }
+        });
+        document.getElementById("backToIndexBtn").addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+
+const itemsTableBody = document.querySelector("#itemsTable tbody");
+const newItemNameInput = document.getElementById("newItemName");
+const newItemPointsInput = document.getElementById("newItemPoints");
+const addItemBtn = document.getElementById("addItemBtn");
+const itemMessage = document.getElementById("itemMessage");
+
+function renderItems(items) {
+  itemsTableBody.innerHTML = "";
+  Object.entries(items).forEach(([name, data]) => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td style="padding: 8px;">
+        <input type="text" class="edit-item-name" value="${name}" style="width: 100%; padding: 4px; border-radius: 4px; border: 1px solid #d4af37;" disabled />
+      </td>
+      <td style="padding: 8px;">
+        <input type="number" class="edit-item-points" value="${data.points}" style="width: 100%; padding: 4px; border-radius: 4px; border: 1px solid #d4af37;" />
+      </td>
+      <td style="text-align: center; cursor: pointer; color: #ef0808; font-weight: bold;">❌</td>
+    `;
+
+    // Save changes when points input changes (debounced for performance)
+    const pointsInput = row.querySelector(".edit-item-points");
+    pointsInput.addEventListener("change", async () => {
+      const newPoints = parseInt(pointsInput.value);
+      if (isNaN(newPoints) || newPoints < 0) {
+        alert("أدخل قيمة صحيحة للنقاط");
+        pointsInput.value = data.points;
+        return;
+      }
+      await update(ref(db, `items/${name}`), { points: newPoints });
+      itemMessage.textContent = `تم تحديث نقاط العنصر "${name}" إلى ${newPoints}`;
+      clearTimeout(window.itemMsgTimeout);
+      window.itemMsgTimeout = setTimeout(() => (itemMessage.textContent = ""), 3000);
+    });
+
+    // Delete item on click X
+    const deleteCell = row.querySelector("td:last-child");
+    deleteCell.addEventListener("click", async () => {
+      if (confirm(`هل تريد حذف العنصر "${name}"؟`)) {
+        await set(ref(db, `items/${name}`), null);
+        itemMessage.textContent = `تم حذف العنصر "${name}"`;
+        clearTimeout(window.itemMsgTimeout);
+        window.itemMsgTimeout = setTimeout(() => (itemMessage.textContent = ""), 3000);
+      }
+    });
+
+    itemsTableBody.appendChild(row);
+  });
+}
+
+// Load items and render
+onValue(ref(db, "items"), (snapshot) => {
+  const items = snapshot.val() || {};
+  renderItems(items);
+  populateItemSelect(items); // To update your select dropdown dynamically (see below)
+});
+
+// Add new item button
+addItemBtn.addEventListener("click", async () => {
+  const name = newItemNameInput.value.trim();
+  const points = parseInt(newItemPointsInput.value);
+
+  if (!name) {
+    alert("الرجاء إدخال اسم العنصر");
+    return;
+  }
+  if (isNaN(points) || points < 0) {
+    alert("الرجاء إدخال قيمة نقاط صحيحة");
+    return;
+  }
+
+  // Add new item to Firebase
+  await update(ref(db, `items/${name}`), { points });
+
+  newItemNameInput.value = "";
+  newItemPointsInput.value = "";
+  itemMessage.textContent = `تمت إضافة العنصر "${name}"`;
+  clearTimeout(window.itemMsgTimeout);
+  window.itemMsgTimeout = setTimeout(() => (itemMessage.textContent = ""), 3000);
+});
+
+// Function to update your <select> with latest items (call it after items loaded)
+function populateItemSelect(items) {
+  const itemSelect = document.getElementById("itemSelect");
+  itemSelect.innerHTML = '<option value="">-- اختر العنصر --</option>';
+
+  for (const [name, data] of Object.entries(items)) {
+    const option = document.createElement("option");
+    option.value = name;
+    option.dataset.value = data.points;
+    option.textContent = `${name} (${data.points} نقطة)`;
+    itemSelect.appendChild(option);
+  }
+}
+
+    </script>
+  </body>
+</html>
