@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orders Admin Panel</title>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("kwpdV9X5gBHfvTZ7O"); // Replace with your public key
+      })();
+    </script>
+    <style>
+      /* General styles */
+      body {
+        background-color: #121212;
+        color: #ffd700;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        background-image: url("background.jpg");
+        background-size: cover; /* Make sure image covers the entire area */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Do not repeat the image */
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      button {
+        cursor: pointer;
+        padding: 8px 14px;
+        border-radius: 5px;
+        border: none;
+        background-color: #333;
+        color: #ffd700;
+        font-weight: bold;
+        transition: background-color 0.2s ease;
+        user-select: none;
+      }
+
+      button:hover {
+        background-color: #555;
+      }
+
+      /* Orders list styles */
+      ul#ordersList {
+        list-style-type: none;
+        padding: 0;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      ul#ordersList li {
+        margin-bottom: 20px;
+      }
+
+      .order-box {
+        border: 2px solid #ffd700;
+        border-radius: 12px;
+        background-color: #1a1a1a;
+        padding: 15px 20px;
+        box-shadow: 0 0 10px #ffd700aa;
+        max-width: 400px;
+      }
+
+      .order-box strong {
+        display: inline-block;
+        width: 110px;
+      }
+
+      .admin-controls button {
+        margin-right: 12px;
+        margin-top: 10px;
+        font-size: 0.9em;
+      }
+
+      #ordersContent {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      #logoutBtn {
+        float: right;
+        margin-bottom: 20px;
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        .order-box {
+          padding: 12px 14px;
+        }
+        .order-box strong {
+          width: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="affiliateLeaderboard" style="margin-top: 20px">
+      <h3>Affiliate Leaderboard</h3>
+      <ul id="affiliateList"></ul>
+    </div>
+    <button id="resetAffiliateBtn" style="margin-top: 10px">
+      Reset Affiliate Leaderboard
+    </button>
+    <button id="exportCSVBtn">Export Orders to CSV</button>
+    <div id="ordersContent" style="display: none">
+      <button id="logoutBtn">Logout</button>
+      <h1>Orders Management Panel</h1>
+      <ul id="ordersList"></ul>
+    </div>
+
+    <h2>
+      ✅ Completed Orders
+      <button
+        id="toggleCompletedBtn"
+        style="margin-left: 10px; font-size: 0.8em">
+        Show
+      </button>
+      <button
+        id="clearCompletedBtn"
+        style="margin-left: 10px; font-size: 0.8em; background-color: #a00">
+        Clear All
+      </button>
+    </h2>
+    <div id="completedOrdersContainer" style="display: none"></div>
+
+    <script type="module" src="orders.js"></script>
+    <script>
+      (function () {
+        emailjs.init("kwpdV9X5gBHfvTZ7O"); // replace with your actual EmailJS User ID
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Affiliate Earnings</title>
+    <style>
+      body {
+        background-color: #121212;
+        color: #ffd700;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        background-image: url("background.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      h1,
+      h2 {
+        text-align: center;
+      }
+      #main-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 15px;
+      }
+      ul#earningsList {
+        list-style-type: none;
+        padding: 0;
+      }
+      .order-box {
+        border: 2px solid #ffd700;
+        border-radius: 12px;
+        background-color: #1a1a1a;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px #ffd700aa;
+      }
+      .order-box p {
+        margin: 5px 0;
+      }
+      #totalEarnings {
+        text-align: center;
+        font-size: 1.5em;
+        margin-top: 30px;
+        padding: 15px;
+        background-color: #1a1a1a;
+        border: 2px solid #ffd700;
+        border-radius: 12px;
+      }
+      #backBtn {
+        display: block;
+        width: 150px;
+        margin: 20px auto;
+        padding: 10px 15px;
+        text-align: center;
+        background-color: #333;
+        color: #ffd700;
+        text-decoration: none;
+        border-radius: 8px;
+        border: 1px solid #ffd700;
+      }
+      #backBtn:hover {
+        background-color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main-container">
+      <h1>My Affiliate Earnings</h1>
+      <a id="backBtn" href="index.html">Back to Main Page</a>
+
+      <h2>My Referrals</h2>
+      <ul id="earningsList">
+        <!-- Orders will be dynamically inserted here -->
+      </ul>
+
+      <div id="totalEarnings">
+        Total Earnings: <span id="totalPoints">0</span> points
+      </div>
+    </div>
+
+    <script type="module" src="affiliates.js"></script>
+  </body>
+</html>

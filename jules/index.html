@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="AR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>خبير المهام</title>
+    <link rel="icon" href="icons/website.svg" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Voice notification library -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=JB0r4O6E"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("kwpdV9X5gBHfvTZ7O"); // Replace with your public key
+      })();
+    </script>
+  </head>
+
+  <body>
+    <!-- Timers container -->
+    <div id="timersBox" class="section"></div>
+    <section id="timersSection"></section>
+
+    <!-- Presence tracking (online users) -->
+    <div id="presenceBox">
+      <div id="onlineUsers">Online Users: 0</div>
+    </div>
+
+    <div id="navBar">
+      <img src="icons/logo10.jpg" alt="Logo" id="navLogo" />
+      <!-- Top left buttons (private features) -->
+      <div id="topLeftControls">
+        <button
+          id="dropsBtn"
+          disabled
+          style="opacity: 0.5; cursor: not-allowed">
+          <img
+            src="icons/private-network-svgrepo-com.svg"
+            alt="Discord"
+            style="width: 35px; height: 35px" />
+        </button>
+        <button
+          id="ordersBtn"
+          disabled
+          style="opacity: 0.5; cursor: not-allowed">
+          <img
+            src="icons/carry-out-svgrepo-com.svg"
+            alt="Discord"
+            style="width: 35px; height: 35px" />
+        </button>
+        <button class="socials">
+          <a
+            href="https://discord.gg/DHuKrQKvPX"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Join our Discord"
+            style="display: inline-flex; align-items: center">
+            <img
+              src="icons/discord-icon-svgrepo-com.svg"
+              alt="Discord"
+              style="width: 35px; height: 35px" />
+          </a>
+        </button>
+        <button class="socials">
+          <a
+            href="https://www.youtube.com/your-channel"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Visit our YouTube Channel"
+            style="display: inline-flex; align-items: center">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"
+              alt="YouTube"
+              style="width: 35px; height: 35px" />
+          </a>
+        </button>
+        <!-- YouTube link -->
+      </div>
+
+      <!-- Section visible only after login -->
+      <div id="privateSection" style="display: none"></div>
+
+      <!-- Header (credits and language switch) -->
+      <header>
+        <div id="header-right">
+          <div id="userMenu" style="display: none">
+            <img
+              id="userIcon"
+              src="icons/user-circle-svgrepo-com.svg"
+              alt="User" />
+            <span id="userNickname"></span>
+            <div id="userDropdown" style="display: none">
+              <button id="changeNameBtn">Change Name</button>
+              <a href="affiliates.html"><button>المنتسبين</button></a>
+              <button id="logoutBtn">Logout</button>
+            </div>
+          </div>
+          <!-- Authentication Section -->
+          <div id="authSection">
+            <div class="lang-switch">
+              <button id="langEN">ENG</button>
+              <button id="langAR">AR</button>
+              <button id="toggleNotificationsBtn">
+                <img
+                  src="icons/notification-off-svgrepo-com.svg"
+                  alt="Sign in with Google" />
+              </button>
+            </div>
+            <form id="loginForm">
+              <button id="googleSignInBtn" type="button">
+                <img
+                  src="icons/google-color-svgrepo-com.svg"
+                  alt="Sign in with Google" />
+              </button>
+            </form>
+
+            <!-- Login feedback message -->
+            <div id="loginMessage" style="margin-top: 10px"></div>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <div class="container">
+      <!-- === Public Order Section === -->
+      <div id="leftWrapper">
+        <div class="boss" id="orderSection">
+          <h2>📝 قائمة المهام</h2>
+
+          <!-- Mission dropdown -->
+          <label for="missionSelect">أختر مهمة:</label>
+          <select id="missionSelect">
+            <option value="">
+              ---------------------------- المهام ----------------------------
+            </option>
+            <option value="نائب حصن" data-value="1000000000">
+              نائب الحصن ( 1 مليار )
+            </option>
+            <option value="شاينوك" data-value="1500000000">
+              شاينوك ( 1.5 مليار )
+            </option>
+            <option value="تشوبوس" data-value="2000000000">
+              تشوبوس ( 2 مليار )
+            </option>
+            <option value="مهمة شفق يومية" data-value="300000000">
+              مهمة الشفق اليومية ( 3 مليار )
+            </option>
+            <option value="مهمة حصن يومية" data-value="300000000">
+              مهمة الحصن اليومية ( 3 مليار )
+            </option>
+            <option value="مهمة الزنزانة اليومية" data-value="30000000">
+              مهمة الزنزانة اليومية ( 3 مليار )
+            </option>
+          </select>
+
+          <!-- Player name input -->
+          <label for="playerName">أسمك في اللعبة:</label>
+          <input
+            type="text"
+            id="playerName"
+            placeholder="Enter your nickname" />
+
+          <!-- Number of players dropdown -->
+          <label for="playersCount">عدد الاعبين:</label>
+          <select id="playersCount" required>
+            <option value="1">1 لاعب</option>
+            <option value="2">2 لاعبان</option>
+            <option value="3">3 لاعبين</option>
+            <option value="4">4 لاعبين</option>
+            <option value="5">5 لاعبين</option>
+            <option value="6">6 لاعبين</option>
+            <option value="7">7 لاعبين</option>
+            <option value="8">8 لاعبين</option>
+          </select>
+
+          <!-- Affiliate input -->
+          <label for="affiliateName">المنتسب (اختياري):</label>
+          <input
+            type="text"
+            id="affiliateName"
+            placeholder="Enter referral name" />
+
+          <!-- Submit button -->
+          <button id="submitOrderBtn">Submit Order</button>
+          <span
+            id="discountDisplay"
+            style="margin-left: 10px; font-weight: bold; color: red"></span>
+          <!-- Submission message -->
+          <div id="orderMessage" style="margin-top: 10px"></div>
+        </div>
+      </div>
+      <!-- === Chobos Boss Timer === -->
+      <div id="rightWrapper">
+        <div class="boss">
+          <h2 id="chobosTitle">Chobos</h2>
+          <div id="chobosReminder" style="display: none">
+            Chobos Minute Set To:
+          </div>
+          <label id="chobosLabel" for="chobosMinutes" style="display: none"
+            >Minutes (0-59):</label
+          >
+          <input
+            type="number"
+            id="chobosMinutes"
+            min="0"
+            max="59"
+            style="display: none" />
+          <button id="startChobosTimerBtn" style="display: none">
+            Start Timer
+          </button>
+          <div id="chobosTimer" class="timer">--:--</div>
+          <div id="chobosLastUpdated"></div>
+        </div>
+
+        <!-- === Chainoc Boss Timer === -->
+        <div class="boss">
+          <h2 id="chainosTitle">Chainoc</h2>
+          <button id="startChainosTimerBtn" style="display: none">
+            Start Timer
+          </button>
+          <div id="chainosTimer" class="timer">--:--</div>
+          <div id="chainosLastUpdated"></div>
+        </div>
+
+        <!-- === Skrab Boss Timer === -->
+        <div class="boss">
+          <h2 id="skrabTitle">Skrab</h2>
+          <button id="startSkrabTimerBtn" style="display: none">
+            Start Timer
+          </button>
+          <div id="skrabTimer" class="timer">--:--</div>
+          <div id="skrabLastUpdated"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- End of container -->
+
+    <!-- === Chat Box === -->
+    <div id="chatBox" class="section">
+      <h2>Chat</h2>
+      <button id="clearChatBtn" style="display: none">Clear Chat</button>
+      <div id="chatMessages"></div>
+      <input type="text" id="chatInput" placeholder="Type your message..." />
+      <button id="chatSendBtn">Send</button>
+    </div>
+
+    <!-- Main JS logic -->
+    <script src="script.js" type="module"></script>
+    <script src="chat.js" type="module"></script>
+
+    <!-- Custom Modal -->
+    <div id="customModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <p id="modalText"></p>
+      </div>
+    </div>
+  </body>
+</html>
